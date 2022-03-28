@@ -17,7 +17,7 @@ public class AonEndpoints {
     @Autowired
     private CreditCardService creditCardService;
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Response> getAllCreditCards() {
 
         Response response = new Response();
@@ -31,7 +31,7 @@ public class AonEndpoints {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Response> saveCreditCard(@RequestBody CreditCard creditCard) {
 
         Response response = new Response();

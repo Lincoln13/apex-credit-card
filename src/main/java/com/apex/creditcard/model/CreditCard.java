@@ -1,17 +1,17 @@
 package com.apex.creditcard.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity(name = "CCI_CREDIT_CARD_INFO")
+@Entity
+@Table(name = "CCI_CREDIT_CARD_INFO", schema = "public")
 public class CreditCard {
 
     @Id
     @Column(name = "cci_pk")
+    @SequenceGenerator(name = "SEQ", sequenceName = "sequencer", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
     private Integer creditCardPk;
     @Column(name = "credit_card_name")
     private String creditCardName;
@@ -19,9 +19,9 @@ public class CreditCard {
     private String shortenedCreditCardNumber;
     @Column(name = "credit_card_number")
     private String creditCardNumber;
-    @Column(name = "balance")
+    @Column(name = "credit_balance")
     private BigDecimal balance;
-    @Column(name = "limit")
+    @Column(name = "credit_limit")
     private BigDecimal limit;
     @Column(name = "is_deleted")
     private Date isDeleted = null;
