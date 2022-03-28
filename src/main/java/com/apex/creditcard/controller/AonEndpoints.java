@@ -1,6 +1,8 @@
 package com.apex.creditcard.controller;
 
+import com.apex.creditcard.exception.BusinessException;
 import com.apex.creditcard.model.CreditCard;
+import com.apex.creditcard.model.CreditCardRequest;
 import com.apex.creditcard.model.Response;
 import com.apex.creditcard.service.CreditCardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,16 @@ public class AonEndpoints {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Response> saveCreditCard(@RequestBody CreditCard creditCard) {
+    public ResponseEntity<Response> saveCreditCard(@RequestBody CreditCardRequest request) {
 
         Response response = new Response();
         try {
-            CreditCard savedCreditCard = creditCardService.saveCreditCard(creditCard);
-            response.setMessage("Saved card! " + savedCreditCard.toString());
+            CreditCard creditCard = creditCardService.processCreditCard(request);
+            creditCard = creditCardService.saveCreditCard(creditCard);
+            response.setMessage("Saved card! " + creditCard.toString());
+        } catch (BusinessException exception) {
+            response.setMessage(exception.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             response.setMessage(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

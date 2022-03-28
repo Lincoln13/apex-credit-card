@@ -15,8 +15,6 @@ public class CreditCard {
     private Integer creditCardPk;
     @Column(name = "credit_card_name")
     private String creditCardName;
-    @Transient
-    private String shortenedCreditCardNumber;
     @Column(name = "credit_card_number")
     private String creditCardNumber;
     @Column(name = "credit_balance")
@@ -28,13 +26,16 @@ public class CreditCard {
     @Column(name = "created_date")
     private Date createdDate = new Date();
 
-    private String getShortenedCreditCardNumber() {
-        return shortenedCreditCardNumber;
-    }
+    private CreditCard() { }
 
-    private void setShortenedCreditCardNumber(String creditCardNumber) {
-        // TODO - some logic to mask credit card number
-        this.shortenedCreditCardNumber = creditCardNumber;
+    public static CreditCard buildCreditCard(CreditCardRequest request) {
+        CreditCard creditCard = new CreditCard();
+        creditCard.setCreditCardPk(0);
+        creditCard.setCreditCardName(request.getCardName());
+        creditCard.setCreditCardNumber(request.getCardNumber());
+        creditCard.setBalance(BigDecimal.ZERO);
+        creditCard.setLimit(request.getLimit());
+        return creditCard;
     }
 
     public Integer getCreditCardPk() {
@@ -95,10 +96,10 @@ public class CreditCard {
 
     @Override
     public String toString() {
-        return "CreditCard{" +
+        return "CreditCard <" +
                 "creditCardName='" + creditCardName + '\'' +
-                ", creditCardNumber='" + shortenedCreditCardNumber + '\'' +
+                ", creditCardNumber='" + creditCardNumber + '\'' +
                 ", limit=" + limit +
-                '}';
+                ">";
     }
 }

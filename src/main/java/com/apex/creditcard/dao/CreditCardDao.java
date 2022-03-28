@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CreditCardDao extends JpaRepository<CreditCard, Integer> {
+    CreditCard findByCreditCardNumber(String creditCardNumber);
 }
