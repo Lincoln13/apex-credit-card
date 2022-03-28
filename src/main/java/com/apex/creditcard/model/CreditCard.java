@@ -10,7 +10,7 @@ public class CreditCard {
 
     @Id
     @Column(name = "cci_pk")
-    @SequenceGenerator(name = "SEQ", sequenceName = "sequencer", allocationSize = 1)
+    @SequenceGenerator(name = "SEQ", sequenceName = "sequencer", allocationSize = 10)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
     private Integer creditCardPk;
     @Column(name = "credit_card_name")
