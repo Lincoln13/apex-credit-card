@@ -37,17 +37,20 @@ public class AonEndpoints {
     public ResponseEntity<Response> saveCreditCard(@RequestBody CreditCardRequest request) {
 
         Response response = new Response();
+        HttpStatus status = HttpStatus.OK;
         try {
             CreditCard creditCard = creditCardService.processCreditCard(request);
             creditCard = creditCardService.saveCreditCard(creditCard);
             response.setMessage("Saved card! " + creditCard.toString());
         } catch (BusinessException exception) {
             response.setMessage(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (Exception e) {
-            response.setMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            exception.printStackTrace();
+            status = HttpStatus.BAD_REQUEST;
+        } catch (Exception exception) {
+            response.setMessage("Something went wrong!");
+            exception.printStackTrace();
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(status).body(response);
     }
 }

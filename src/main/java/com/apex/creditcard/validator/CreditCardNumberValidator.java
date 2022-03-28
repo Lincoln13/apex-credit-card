@@ -14,7 +14,7 @@ public class CreditCardNumberValidator {
     public Boolean doesCardNumberAlreadyExists(String creditCardNumber) {
         CreditCard creditCardWithUs;
         creditCardWithUs = dao.findByCreditCardNumber(creditCardNumber);
-        return creditCardWithUs == null;
+        return (creditCardWithUs != null);
     }
 
     public Boolean isValidCreditCardNumber(String creditCardNumber) {
