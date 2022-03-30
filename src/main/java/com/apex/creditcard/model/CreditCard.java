@@ -10,19 +10,17 @@ public class CreditCard {
 
     @Id
     @Column(name = "cci_pk")
-    @SequenceGenerator(name = "SEQ", sequenceName = "sequencer", allocationSize = 10)
+    @SequenceGenerator(name = "SEQ", sequenceName = "sequencer", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
-    private Integer creditCardPk;
+    private Integer id;
     @Column(name = "credit_card_name")
-    private String creditCardName;
+    private String name;
     @Column(name = "credit_card_number")
-    private String creditCardNumber;
+    private String number;
     @Column(name = "credit_balance")
     private BigDecimal balance;
     @Column(name = "credit_limit")
     private BigDecimal limit;
-    @Column(name = "is_deleted")
-    private Date isDeleted = null;
     @Column(name = "created_date")
     private Date createdDate = new Date();
 
@@ -30,36 +28,36 @@ public class CreditCard {
 
     public static CreditCard buildCreditCard(CreditCardRequest request) {
         CreditCard creditCard = new CreditCard();
-        creditCard.setCreditCardPk(0);
-        creditCard.setCreditCardName(request.getCardName());
-        creditCard.setCreditCardNumber(request.getCardNumber());
+        creditCard.setId(0);
+        creditCard.setName(request.getCardName());
+        creditCard.setNumber(request.getCardNumber());
         creditCard.setBalance(BigDecimal.ZERO);
-        creditCard.setLimit(request.getLimit());
+        creditCard.setLimit(new BigDecimal(request.getLimit()));
         return creditCard;
     }
 
-    public Integer getCreditCardPk() {
-        return creditCardPk;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCreditCardPk(Integer creditCardPk) {
-        this.creditCardPk = creditCardPk;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getCreditCardName() {
-        return creditCardName;
+    public String getName() {
+        return name;
     }
 
-    public void setCreditCardName(String creditCardName) {
-        this.creditCardName = creditCardName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCreditCardNumber() {
-        return creditCardNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCreditCardNumber(String creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public BigDecimal getLimit() {
@@ -78,14 +76,6 @@ public class CreditCard {
         this.balance = balance;
     }
 
-    public Date getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Date isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -97,8 +87,8 @@ public class CreditCard {
     @Override
     public String toString() {
         return "CreditCard <" +
-                "creditCardName='" + creditCardName + '\'' +
-                ", creditCardNumber='" + creditCardNumber + '\'' +
+                "creditCardName='" + name + '\'' +
+                ", creditCardNumber='" + number + '\'' +
                 ", limit=" + limit +
                 ">";
     }

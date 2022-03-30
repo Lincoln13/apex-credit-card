@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,14 +24,16 @@ public class AonEndpoints {
     public ResponseEntity<Response> getAllCreditCards() {
 
         Response response = new Response();
+        HttpStatus status = HttpStatus.OK;
         try {
             List<CreditCard> creditCards = creditCardService.getCreditCards();
-            response.setCreditCardList(creditCards);
+            response.setCreditCards(creditCards);
         } catch (Exception e) {
-            response.setMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            response.setMessage("Something went wrong!");
+            e.printStackTrace();
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(status).body(response);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -38,10 +41,12 @@ public class AonEndpoints {
 
         Response response = new Response();
         HttpStatus status = HttpStatus.OK;
+        List<CreditCard> creditCards = new ArrayList();
         try {
             CreditCard creditCard = creditCardService.processCreditCard(request);
-            creditCard = creditCardService.saveCreditCard(creditCard);
-            response.setMessage("Saved card! " + creditCard.toString());
+            creditCards.add(creditCardService.saveCreditCard(creditCard));
+            response.setCreditCards(creditCards);
+            response.setMessage("Card saved!");
         } catch (BusinessException exception) {
             response.setMessage(exception.getMessage());
             exception.printStackTrace();

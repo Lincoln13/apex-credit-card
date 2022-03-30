@@ -4,7 +4,7 @@ import com.apex.creditcard.dao.CreditCardDao;
 import com.apex.creditcard.model.CreditCard;
 import com.apex.creditcard.model.CreditCardRequest;
 import com.apex.creditcard.service.CreditCardService;
-import com.apex.creditcard.validator.CreditCardNumberValidator;
+import com.apex.creditcard.validator.CreditCardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.apex.creditcard.exception.BusinessException;
@@ -16,8 +16,6 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Autowired
     private CreditCardDao creditCardDao;
-    @Autowired
-    private CreditCardNumberValidator creditCardNumberValidator;
 
     @Override
     public List<CreditCard> getCreditCards() {
@@ -31,12 +29,17 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public CreditCard processCreditCard(CreditCardRequest request) throws BusinessException {
-        Boolean isValidCreditCardNumber = creditCardNumberValidator.isValidCreditCardNumber(request.getCardNumber());
-        if (!isValidCreditCardNumber) {
+
+        CreditCardValidator creditCardValidator = new CreditCardValidator(creditCardDao);
+
+        if(!creditCardValidator.validateLimitValue(request.getLimit())) {
+            throw new BusinessException("Invalid credit card limit!");
+        }
+
+        if (!creditCardValidator.isValidCreditCardNumber(request.getCardNumber())) {
             throw new BusinessException("Invalid credit card number!");
         }
-        Boolean isCardAlreadyAdded = creditCardNumberValidator.doesCardNumberAlreadyExists(request.getCardNumber());
-        if (isCardAlreadyAdded) {
+        if (creditCardValidator.doesCardNumberAlreadyExists(request.getCardNumber())) {
             throw new BusinessException("Card already added!");
         }
         return CreditCard.buildCreditCard(request);

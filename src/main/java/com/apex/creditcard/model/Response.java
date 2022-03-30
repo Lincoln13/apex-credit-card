@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Response {
 
-    private List<CreditCard> creditCardList = new ArrayList<>();
+    private List<CreditCard> creditCards = new ArrayList<>();
     private String message;
 
-    public List<CreditCard> getCreditCardList() {
-        return creditCardList;
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
     }
 
-    public void setCreditCardList(List<CreditCard> creditCardList) {
-        this.creditCardList = creditCardList;
+    public void setCreditCards(List<CreditCard> creditCardList) {
+        this.creditCards = creditCardList;
     }
 
     public String getMessage() {

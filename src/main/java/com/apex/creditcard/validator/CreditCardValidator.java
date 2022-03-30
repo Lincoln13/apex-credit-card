@@ -2,18 +2,26 @@ package com.apex.creditcard.validator;
 
 import com.apex.creditcard.dao.CreditCardDao;
 import com.apex.creditcard.model.CreditCard;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreditCardNumberValidator {
+public class CreditCardValidator {
 
-    @Autowired
     private CreditCardDao dao;
+
+    public CreditCardValidator() {}
+
+    public CreditCardValidator(CreditCardDao dao) {
+        this.dao = dao;
+    }
+
+    public Boolean validateLimitValue(String limit) {
+        return areAllNumbers(limit);
+    }
 
     public Boolean doesCardNumberAlreadyExists(String creditCardNumber) {
         CreditCard creditCardWithUs;
-        creditCardWithUs = dao.findByCreditCardNumber(creditCardNumber);
+        creditCardWithUs = dao.findByNumber(creditCardNumber);
         return (creditCardWithUs != null);
     }
 
@@ -29,10 +37,7 @@ public class CreditCardNumberValidator {
     private Boolean isCreditCardNumbersBounded(String creditCardNumber) {
 
         int numberOfDigits = creditCardNumber.length();
-        if (numberOfDigits <= 0 || numberOfDigits > 19) {
-            return false;
-        }
-        return true;
+        return (numberOfDigits > 0 && numberOfDigits <= 16);
     }
 
     private Boolean areAllNumbers(String creditCardNumber) {

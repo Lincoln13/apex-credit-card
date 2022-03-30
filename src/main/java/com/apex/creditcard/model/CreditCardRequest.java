@@ -6,7 +6,7 @@ public class CreditCardRequest {
 
     private String cardName;
     private String cardNumber;
-    private BigDecimal limit;
+    private String limit;
 
     public String getCardName() {
         return cardName;
@@ -24,11 +24,11 @@ public class CreditCardRequest {
         this.cardNumber = cardNumber;
     }
 
-    public BigDecimal getLimit() {
+    public String getLimit() {
         return limit;
     }
 
-    public void setLimit(BigDecimal limit) {
+    public void setLimit(String limit) {
         this.limit = limit;
     }
 }
