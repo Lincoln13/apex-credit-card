@@ -6,6 +6,7 @@ import com.apex.creditcard.model.CreditCardRequest;
 import com.apex.creditcard.model.Response;
 import com.apex.creditcard.service.CreditCardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,12 @@ public class AonEndpoints {
     @Autowired
     private CreditCardService creditCardService;
 
+    @Value("${serverError}")
+    private String serverError;
+    @Value("${successMessage}")
+    private String successMessage;
+
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Response> getAllCreditCards() {
 
@@ -29,7 +36,7 @@ public class AonEndpoints {
             List<CreditCard> creditCards = creditCardService.getCreditCards();
             response.setCreditCards(creditCards);
         } catch (Exception e) {
-            response.setMessage("Something went wrong!");
+            response.setMessage(serverError);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return ResponseEntity.status(status).body(response);
@@ -45,12 +52,12 @@ public class AonEndpoints {
             CreditCard creditCard = creditCardService.processCreditCard(request);
             creditCards.add(creditCardService.saveCreditCard(creditCard));
             response.setCreditCards(creditCards);
-            response.setMessage("Card saved!");
+            response.setMessage(successMessage);
         } catch (BusinessException exception) {
             response.setMessage(exception.getMessage());
             status = HttpStatus.BAD_REQUEST;
         } catch (Exception exception) {
-            response.setMessage("Something went wrong!");
+            response.setMessage(serverError);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return ResponseEntity.status(status).body(response);
