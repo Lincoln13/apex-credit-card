@@ -1,7 +1,5 @@
 package com.apex.creditcard.model;
 
-import java.math.BigDecimal;
-
 public class CreditCardRequest {
 
     private String cardName;

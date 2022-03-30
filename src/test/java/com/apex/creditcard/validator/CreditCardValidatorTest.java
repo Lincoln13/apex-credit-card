@@ -3,10 +3,8 @@ package com.apex.creditcard.validator;
 import com.apex.creditcard.dao.CreditCardDao;
 import com.apex.creditcard.model.CreditCard;
 import com.apex.creditcard.model.CreditCardRequest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,12 +17,12 @@ public class CreditCardValidatorTest {
     @Test
     public void testCardLimit() {
 
-        assertTrue(validator.validateLimitValue("123"));
+        assertTrue(validator.areCreditLimitAllNumeric("123"));
 
-        assertFalse(validator.validateLimitValue("sad123"));
-        assertFalse(validator.validateLimitValue("  asd"));
-        assertFalse(validator.validateLimitValue("  134"));
-        assertFalse(validator.validateLimitValue(" -- 134"));
+        assertFalse(validator.areCreditLimitAllNumeric("sad123"));
+        assertFalse(validator.areCreditLimitAllNumeric("  asd"));
+        assertFalse(validator.areCreditLimitAllNumeric("  134"));
+        assertFalse(validator.areCreditLimitAllNumeric(" -- 134"));
     }
 
     @Test

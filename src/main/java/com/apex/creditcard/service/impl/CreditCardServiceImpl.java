@@ -32,7 +32,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
         CreditCardValidator creditCardValidator = new CreditCardValidator(creditCardDao);
 
-        if(!creditCardValidator.validateLimitValue(request.getLimit())) {
+        if(!creditCardValidator.areCreditLimitAllNumeric(request.getLimit())) {
             throw new BusinessException("Invalid credit card limit!");
         }
 

@@ -15,16 +15,39 @@ public class CreditCardValidator {
         this.dao = dao;
     }
 
-    public Boolean validateLimitValue(String limit) {
+    /**
+     * Validates credit card limit if it contains all numbers.
+     *
+     * @param limit credit card limit provided by the users.
+     * @return true if all are numbers else false.
+     */
+    public Boolean areCreditLimitAllNumeric(String limit) {
         return areAllNumbers(limit);
     }
 
+    /**
+     * Checks our database and looks if the credit card number
+     * already exists. If yes then system doesn't let to store
+     * credit card information into the database.
+     *
+     * @param creditCardNumber credit card number provided by the users
+     * @return true if card already exists else false.
+     */
     public Boolean doesCardNumberAlreadyExists(String creditCardNumber) {
         CreditCard creditCardWithUs;
         creditCardWithUs = dao.findByNumber(creditCardNumber);
         return (creditCardWithUs != null);
     }
 
+    /**
+     * Takes in a credit card number and performs various operation to
+     * check its validity like if all characters are numeric,
+     * upto nineteen characters can be entered and if it obeys Luhn 10
+     * algorithm.
+     *
+     * @param creditCardNumber credit card number provided by the user
+     * @return true if all conditions are valid else false
+     */
     public Boolean isValidCreditCardNumber(String creditCardNumber) {
 
         creditCardNumber = creditCardNumber.replace("-", "");
@@ -34,12 +57,19 @@ public class CreditCardValidator {
                 luhnAlgorithmValidator(creditCardNumber);
     }
 
+    /*
+    checks if credit card number is in the range of 0 and 16
+     */
     private Boolean isCreditCardNumbersBounded(String creditCardNumber) {
 
         int numberOfDigits = creditCardNumber.length();
         return (numberOfDigits > 0 && numberOfDigits <= 16);
     }
 
+    /*
+    checks if credit card number contains all numeric characters.
+    method also used to check if credit limit contains all numeric characters.
+     */
     private Boolean areAllNumbers(String creditCardNumber) {
         for (int i = creditCardNumber.length() - 1; i >= 0; i--) {
             if (creditCardNumber.charAt(i) < 48 || creditCardNumber.charAt(i) > 57) {
@@ -49,6 +79,9 @@ public class CreditCardValidator {
         return true;
     }
 
+    /*
+    Luhn 10 algorithm implementation. Checks if credit card number is valid.
+     */
     private Boolean luhnAlgorithmValidator(String creditCardNumber) {
 
         int numberOfDigits = creditCardNumber.length();

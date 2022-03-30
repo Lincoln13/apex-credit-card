@@ -26,6 +26,15 @@ public class CreditCard {
 
     private CreditCard() { }
 
+    /**
+     * Accepts request as a parameter and transforms it to CreditCard
+     * Entity for further processing. Request contains details for
+     * name, card number and limit. For all new cards, balance is set
+     * to zero.
+     *
+     * @param request Incoming request from the UI
+     * @return CreditCard Entity
+     */
     public static CreditCard buildCreditCard(CreditCardRequest request) {
         CreditCard creditCard = new CreditCard();
         creditCard.setId(0);
