@@ -30,7 +30,6 @@ public class AonEndpoints {
             response.setCreditCards(creditCards);
         } catch (Exception e) {
             response.setMessage("Something went wrong!");
-            e.printStackTrace();
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return ResponseEntity.status(status).body(response);
@@ -49,11 +48,9 @@ public class AonEndpoints {
             response.setMessage("Card saved!");
         } catch (BusinessException exception) {
             response.setMessage(exception.getMessage());
-            exception.printStackTrace();
             status = HttpStatus.BAD_REQUEST;
         } catch (Exception exception) {
             response.setMessage("Something went wrong!");
-            exception.printStackTrace();
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return ResponseEntity.status(status).body(response);
